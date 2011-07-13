@@ -1,10 +1,14 @@
-jx.generateBoundry = function(fileData) {
-    var boundry = '';
-    do {
-        boundry = parseInt(Math.random()*Math.pow(10, 16)).toString(36) + '' + parseInt(Math.random()*Math.pow(10, 16)).toString(36);
-    } while(fileData.indexOf(boundry) > -1);
+jx.generateBoundary = function(fieldsData) {
+    var boundary = parseInt(Math.random()*Math.pow(10, 16)).toString(36) + '' + parseInt(Math.random()*Math.pow(10, 16)).toString(36);
+    for (var i = 0; i < fieldsData.length; i++) {
+        if (fieldsData[i].indexOf(boundary) > -1) {
+            // generate new boundary and check all fields again
+            boundary = parseInt(Math.random()*Math.pow(10, 16)).toString(36) + '' + parseInt(Math.random()*Math.pow(10, 16)).toString(36);
+            i = 0;
+        }
+    }
     
-    return boundry;
+    return boundary;
 };
 
 jx.error = function(rcode) {
@@ -21,12 +25,17 @@ jx.loadImage = function(url, fileData, callback) {
 jx.loadFile = function(url, fileData, fileName, callback, opt) {
     var http = this.init(); //The XMLHttpRequest object is recreated at every call - to defeat Cache problem in IE
     if(!http||!url) return;
-    
-    var boundary = this.generateBoundry(fileData);
 
     var parts = url.split('?');
     var url = parts[0];
     var parameters = parts[1] ? parts[1].split('&') : [];
+    
+    var fieldsData = [fileData];
+    for (var i = 0; i < parameters.length; i++) {
+        fieldsData.push(parameter[i][1]);
+    }
+    
+    var boundary = this.generateBoundary(fieldsData);
 
     var body = '';
     for (var i = 0; i < parameters.length; i++) {
