@@ -1,7 +1,7 @@
 jx.generateBoundary = function(fieldsData) {
     var boundary = parseInt(Math.random()*Math.pow(10, 16)).toString(36) + '' + parseInt(Math.random()*Math.pow(10, 16)).toString(36);
     for (var i = 0; i < fieldsData.length; i++) {
-        if (fieldsData[i].indexOf(boundary) > -1) {
+        if (fieldsData[i] && fieldsData[i].indexOf(boundary) > -1) {
             // generate new boundary and check all fields again
             boundary = parseInt(Math.random()*Math.pow(10, 16)).toString(36) + '' + parseInt(Math.random()*Math.pow(10, 16)).toString(36);
             i = 0;
@@ -29,6 +29,9 @@ jx.loadFile = function(url, fileData, fileName, callback, opt) {
     var parts = url.split('?');
     var url = parts[0];
     var parameters = parts[1] ? parts[1].split('&') : [];
+    for (var i = 0; i < parameters.length; i++) {
+        parameters[i] = parameters[i].split('=');
+    }
     
     var fieldsData = [fileData];
     for (var i = 0; i < parameters.length; i++) {
