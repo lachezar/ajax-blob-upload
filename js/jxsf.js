@@ -39,7 +39,7 @@ Content-Disposition: form-data; name='"+p[0]+"'\r\n\
         
     body += "--" + boundary + "\r\n\
 Content-Disposition: form-data; name='" + fileName + "'; filename='" + fileName + "'\r\n\
-Content-Type: image/png\r\n\
+Content-Type: application/octet-stream\r\n\
 \r\n\
 "+ fileData + "\r\n\
 --" + boundary + "--\r\n";
